@@ -93,7 +93,7 @@ $ <b>python3 set_lab_config.py</b>
 <pre>
 # OpenSSH
 $ <b>virsh</b>
-$ <b>listl</b>
+$ <b>list</b>
 $ <b>console ccnp-ccie-lab-generator_r1</b>
 </pre>
 
