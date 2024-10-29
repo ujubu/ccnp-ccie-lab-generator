@@ -67,7 +67,7 @@ r4         g0/3       r6	      g0/1
 
 Here is an image from the TIFF file:
 
-![Example Network Diagram](example-network-diagram.tiff)
+![Example Network Diagram](example-network-diagram.jpg)
 
 3\. Create a Vagrantfile and YAML files for your own lab setup
 
