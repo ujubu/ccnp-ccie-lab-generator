@@ -49,6 +49,25 @@ $ <b>git clone https://github.com/ujubu/ccnp-ccie-lab-generator).git</b>
 $ <b>cd ccnp-ccie-lab-generator</b>
 </pre>
 
+2\. Create a router/switch connections on input.txt as you can see as a example.
+
+<pre>
+$ <b>Device     Interface  Remote Device   Remote Interface
+r1         g0/1       r2       g0/1
+r1         g0/2       r2       g0/2
+r2         g0/3	      r3	      g0/1
+r2         g0/4       r4	      g0/1
+r3         g0/2       r4	      g0/2
+r3         g0/3       r5	      g0/1
+r4         g0/3       r6	      g0/1</b>
+</pre>
+
+3\. Create a Vagrantfile and YAML files for your own lab setup
+
+<pre>
+$ <b>python3 vagrantfile_generator.py</b>
+</pre>
+
 2\. Create a Python virtual environment.
 
 <pre>
