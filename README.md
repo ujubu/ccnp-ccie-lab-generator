@@ -92,9 +92,9 @@ $ <b>python3 set_lab_config.py</b>
 
 <pre>
 # OpenSSH
-$ <b>ssh r1</b>
-# Vagrant
-$ <b>vagrant ssh r1</b>
+$ <b>virsh</b>
+$ <b>listl</b>
+$ <b>console ccnp-ccie-lab-generator_r1</b>
 </pre>
 
 ## License
