@@ -53,8 +53,8 @@ $ <b>cd ccnp-ccie-lab-generator</b>
 
 <pre>
 $ <b>Device     Interface  Remote Device   Remote Interface
-r1         g0/1       r2       g0/1
-r1         g0/2       r2       g0/2
+r1         g0/1       r2              g0/1
+r1         g0/2       r2              g0/2
 r2         g0/3	      r3	      g0/1
 r2         g0/4       r4	      g0/1
 r3         g0/2       r4	      g0/2
