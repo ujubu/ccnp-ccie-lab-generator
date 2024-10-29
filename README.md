@@ -45,7 +45,7 @@ Use [sshconfig](files/sshconfig) as a reference.
 1\. Clone this GitHub repo and _cd_ into the directory.
 
 <pre>
-$ <b>git clone https://github.com/ujubu/ccnp-ccie-lab-generator).git</b>
+$ <b>git clone https://github.com/ujubu/ccnp-ccie-lab-generator.git</b>
 $ <b>cd ccnp-ccie-lab-generator</b>
 </pre>
 
