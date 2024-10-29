@@ -60,7 +60,8 @@ r2         g0/3	      r3	      g0/1
 r2         g0/4       r4	      g0/1
 r3         g0/2       r4	      g0/2
 r3         g0/3       r5	      g0/1
-r4         g0/3       r6	      g0/1</b>
+r4         g0/3       r6	      g0/1
+</b>
 </pre>
 
 3\. Create a Vagrantfile and YAML files for your own lab setup
