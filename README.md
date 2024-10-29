@@ -52,7 +52,8 @@ $ <b>cd ccnp-ccie-lab-generator</b>
 2\. Create a router/switch connections on input.txt as you can see as a example.
 
 <pre>
-$ <b>Device     Interface  Remote Device   Remote Interface
+$ <b>
+Device     Interface  Remote Device   Remote Interface
 r1         g0/1       r2              g0/1
 r1         g0/2       r2              g0/2
 r2         g0/3	      r3	      g0/1
