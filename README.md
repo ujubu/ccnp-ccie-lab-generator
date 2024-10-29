@@ -63,9 +63,8 @@ r3         g0/3       r5	      g0/1
 r4         g0/3       r6	      g0/1
 </b>
 </pre>
-## Image
 
-Here is an image from the TIFF file:
+Here is an image from the example lab network diagram JPG file:
 
 ![Example Network Diagram](example-network-diagram.jpg)
 
