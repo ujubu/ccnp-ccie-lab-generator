@@ -49,7 +49,7 @@ $ <b>git clone https://github.com/ujubu/ccnp-ccie-lab-generator.git</b>
 $ <b>cd ccnp-ccie-lab-generator</b>
 </pre>
 
-2\. Create a router/switch connections on input.txt as you can see as a example.
+2\. Create a router connections on input.txt as you can see as a example.
 For more details, check the [input.txt](/input.txt) file.
 <pre>
 $ <b>
