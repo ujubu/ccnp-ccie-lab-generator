@@ -130,9 +130,6 @@ def read_mac_ip(file_path):
         mac = host.get('mac')  # Get MAC address
         ip = host.get('ip')     # Get IP address
 
-        # Debugging output
-        print(f"Read MAC: {mac}, IP: {ip}")  # Print to check values
-
         # If IP is None or empty, set it to 'N/A'
         if ip is None or ip.strip() == '':
             ip = 'N/A'
@@ -226,17 +223,18 @@ for entry in ip_table:
 
 def create_ssh_config(devices, mac_ip_data):
     ssh_config_lines = []
+    mac_ip_data_remove = mac_ip_data.copy()
 
     # Cihazlar üzerinden döngü
     for device in devices:
         if device.startswith("r"):  # Router için
-            management_ip = list(mac_ip_data.keys())[0]  # İlk IP adresini al
+            management_ip = list(mac_ip_data_remove.keys())[0]  # İlk IP adresini al
             ssh_config_lines.append(f"Host {device}\n  HostName {management_ip}")
-            del mac_ip_data[management_ip]  # Kullanılan IP'yi kaldır
+            del mac_ip_data_remove[management_ip]  # Kullanılan IP'yi kaldır
         elif device.startswith("s"):  # Switch için
-            management_ip = list(mac_ip_data.keys())[0]  # İlk IP adresini al
+            management_ip = list(mac_ip_data_remove.keys())[0]  # İlk IP adresini al
             ssh_config_lines.append(f"Host {device}\n  HostName {management_ip}")
-            del mac_ip_data[management_ip]  # Kullanılan IP'yi kaldır
+            del mac_ip_data_remove[management_ip]  # Kullanılan IP'yi kaldır
 
     # Varsayılan ayarlar
     ssh_config_lines.append("\n# Defaults")
@@ -266,27 +264,40 @@ def clear_host_vars(inventory_dir: str):
                 os.remove(file_path)
         print(f"All host_vars files in {host_vars_dir} have been removed.")
 
-def create_inventory(devices: list, mac_ip: dict):
-    """Creates an inventory directory and host.yaml, defaults.yaml, and groups.yaml files."""
+def create_inventory(devices: list, mac_ip_data_inv: dict):
     inventory_dir = 'inventory'
     os.makedirs(inventory_dir, exist_ok=True)  # Create inventory directory if it doesn't exist
 
     # Clear existing host_vars
     clear_host_vars(inventory_dir)
 
-    # Create host.yaml content
+    # Initialize inventory data
     inventory_data = {}
+    mac_ip_data_remaining = mac_ip_data_inv.copy()  # Copy of the dictionary to modify safely
+
     for device in devices:
+        # Retrieve management IP from the remaining IP data
+        if mac_ip_data_remaining:
+            management_ip_inv = list(mac_ip_data_remaining.keys())[0]
+            del mac_ip_data_remaining[management_ip_inv]  # Remove assigned IP from remaining pool
+        else:
+            management_ip_inv = "N/A"  # No IPs left to assign
+
+        # Default values
         inventory_data[device] = {
-            'hostname': mac_ip.get(device, "N/A"),  # Yönetim IP'si
-            'groups': ['router'] if device.startswith('r') else ['switch']  # Cihaz grubunu belirle
+            'hostname': management_ip_inv,
+            'groups': ['router'] if device.startswith('r') else ['switch']
         }
 
-    # YAML dosyasını oluştur
+    # Define YAML file path
     yaml_file_path = os.path.join(inventory_dir, 'hosts.yaml')
-    with open(yaml_file_path, 'w') as yaml_file:
-        yaml_file.write('---\n')  # YAML dosyasının başına '---' ekle
-        yaml.dump(inventory_data, yaml_file)
+
+    try:
+        # Create the YAML file
+        with open(yaml_file_path, 'w') as yaml_file:
+            yaml.dump(inventory_data, yaml_file, default_flow_style=False)
+    except Exception as e:
+        print(f"Error writing to YAML file: {e}")
 
     # defaults.yaml dosyasını oluştur
     defaults_file_path = os.path.join(inventory_dir, 'defaults.yaml')
@@ -420,6 +431,7 @@ if __name__ == "__main__":
     data = read_input_file(INPUT_FILENAME)
     devices = extract_devices(data)
     mac_ip_data = load_mac_and_management_ips(MAC_IP_FILENAME)
+    mac_ip_data_inv = mac_ip_data
 
     # Initialize port configurations
     port_configs = {}
@@ -503,7 +515,7 @@ if __name__ == "__main__":
     ssh_config = create_ssh_config(devices, mac_ip_data)  # SSH yapılandırmasını oluştur
     SSH_CONFIG_FILENAME = os.path.join(files_dir, "sshconfig")
     create_config_file(SSH_CONFIG_FILENAME, ssh_config)
-    create_inventory(devices, mac_ip)  # Envanter dosyasını oluştur
+    create_inventory(devices, mac_ip_data_inv)  # Envanter dosyasını oluştur
 
 
 
@@ -515,8 +527,13 @@ def load_yaml(file_path):
     return {}
 
 def save_yaml(file_path, data):
-    # Save the data to a YAML file
+    # Write a custom header at the beginning of the file
+    device_name = os.path.splitext(os.path.basename(file_path))[0]  # device name from file path
     with open(file_path, 'w') as file:
+        # Write the header with device-specific configuration comment
+        file.write(f"---\n# {device_name} configurations\n")
+        
+        # Dump the YAML data after the header
         yaml.dump(data, file, default_flow_style=False)
 
 def update_router_interfaces(ip_table, inventory_dir):
