@@ -36,7 +36,7 @@ B\. Create a DHCP reservation entry for the management interface of each Cisco d
 
 Refer to [Controlling Vagrant Box Management IP](https://codingpackets.com/blog/controlling-vagrant-box-management-ip) for more information. Use [vagrant-libvirt-vnet.xml](files/vagrant-libvirt-vnet.xml) as a reference.
 
-C\. Create/Update the SSH client configuration file for the Cisco devices.
+C\. Script updates the SSH client configuration file for the Cisco devices.
 
 Use [sshconfig](files/sshconfig) as a reference.
 
@@ -74,25 +74,28 @@ Here is an image from the example lab network diagram JPG file:
 $ <b>python3 vagrantfile_generator.py</b>
 </pre>
 
-2\. Create a Python virtual environment.
+4\. Create a Python virtual environment.
 
 <pre>
 $ <b>source init_venv.sh</b>
 </pre>
 
-3\. Instantiate the Cisco devices.
+5\. Make sure KVM is active
+
+
+6. Instantiate the Cisco devices.
 
 <pre>
 $ <b>vagrant up</b>
 </pre>
 
-4\. Run the Python script to configure the Cisco devices for the INE labs.
+7\. Run the Python script to configure the Cisco devices for the INE labs.
 
 <pre>
 $ <b>python3 set_lab_config.py</b>
 </pre>
 
-5\. Connect to the Cisco devices via SSH.
+8\. Connect to the Cisco devices via SSH.
 
 <pre>
 # OpenSSH
