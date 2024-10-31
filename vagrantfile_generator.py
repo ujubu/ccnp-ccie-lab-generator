@@ -1,6 +1,7 @@
 ﻿import os
 import yaml
 import xml.etree.ElementTree as ET
+import re
 
 # Files
 base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,14 +17,15 @@ SSH_CONFIG_FILENAME = "sshconfig"
 def read_input_file(filename: str) -> list:
     """
     Reads input data from a given file and returns it as a list of lists.
-    Each line is split into separate elements.
+    Each line is split into separate elements, handling inconsistent whitespace.
     """
     data = []
     try:
         with open(filename, 'r') as file:
             lines = file.readlines()
             for line in lines[1:]:  # Skip header
-                row = line.strip().split()
+                # Use regex to split by one or more whitespace, ensuring clean splits
+                row = re.split(r'\s+', line.strip())
                 if len(row) >= 4:  # Ensure there are at least 4 elements per line
                     data.append(row)
         return data
@@ -201,8 +203,9 @@ router_connections = []
 with open("input.txt") as f:
     next(f)  # Skip header
     for line in f:
-        fields = line.strip().split()
-        router_connections.append((fields[0], fields[1], fields[2], fields[3]))
+        fields = re.split(r'\s+', line.strip())  # Split by one or more whitespace
+        if len(fields) >= 4:  # Ensure there are at least 4 fields
+            router_connections.append((fields[0], fields[1], fields[2], fields[3]))
 
 # Generate IP pairs and print them as a table
 ip_table = generate_ip_pairs(router_connections)
