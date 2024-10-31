@@ -82,6 +82,10 @@ $ <b>source init_venv.sh</b>
 
 5\. Make sure KVM is active
 
+<pre>
+$ <b>kvm-ok</b>
+$ <b>sudo modprobe kvm_intel</b>
+</pre>
 
 6. Instantiate the Cisco devices.
 
