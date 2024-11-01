@@ -4,7 +4,7 @@ This project automates the process of redesigning files created by [mweisel](htt
 
 ## Acknowledgments
 
-I would like to thank [mweisel](https://github.com/mweisel) for providing the original scripts and environment, which served as the foundation for this project.
+I would like to thank [mweisel](https://github.com/mweisel) for providing the-orginal environment, which served as the foundation for this project.
 
 ## Installation
 
